@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Progress Dashboard',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.blue, fontFamily: "Rubik"),
+      theme: ThemeData(primarySwatch: Colors.blue, fontFamily: "Rubrik"),
       home: ProgressDashboard(),
     );
   }
@@ -41,7 +41,55 @@ class ProgressDashboard extends StatelessWidget {
           //Main Progress Dashboard------------------
           Expanded(
             child: Container(
-                width: 400, height: double.infinity, color: Colors.white),
+              padding: const EdgeInsets.symmetric(horizontal: 50),
+              width: 400,
+              height: double.infinity,
+              color: Colors.white,
+              child: Container(
+                child: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Progress Dashboard",
+                        style: TextStyle(
+                          color: darkPurple,
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Row(
+                        children: [],
+                      ),
+                      SizedBox(height: 20),
+                      Row(
+                        children: [GroupInfoCard()],
+                      ),
+                      SizedBox(height: 40),
+                      Row(
+                        children: [
+                          CourseCard(
+                            courseName: "Grammar",
+                            color: darkVioletPurple,
+                            courseIcon: Icons.edit,
+                            courseDescription: "+ 30 grammar rules.",
+                          ),
+                          SizedBox(width: 50),
+                          CourseCard(
+                            courseName: "Dictionary",
+                            color: Colors.redAccent,
+                            courseIcon: Icons.text_format,
+                            courseDescription: "+ 10 new words.",
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ),
 
           //Profile Info-----------------------------
@@ -55,7 +103,7 @@ class ProgressDashboard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 ShortProfileInfoCard(
-                  name: "Harrison Phillips",
+                  name: "Aiony Haust",
                   designation: "Business Analyst",
                   rating: 5,
                 ),
@@ -115,6 +163,140 @@ class ProgressDashboard extends StatelessWidget {
   }
 }
 
+class GroupInfoCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 300,
+      width: 350,
+      padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 40.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: lightBlueGrey,
+            blurRadius: 30,
+          ),
+        ],
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Group Info',
+                style: TextStyle(
+                  color: darkPurple,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+              Icon(
+                Icons.notifications,
+                color: darkBlueGrey,
+                size: 18,
+              )
+            ],
+          ),
+          Text(
+            "13 students in the group",
+            style: TextStyle(
+              color: darkBlueGrey,
+              fontWeight: FontWeight.bold,
+              fontSize: 12,
+            ),
+          ),
+          Container(
+            height: 100,
+            width: double.infinity,
+            padding: const EdgeInsets.all(20.0),
+            decoration: BoxDecoration(
+              color: orange,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Group Homework',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ),
+                    ),
+                    SizedBox(height: 5.0),
+                    Text(
+                      '5 students from your group',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                      ),
+                      softWrap: true,
+                    ),
+                    Text(
+                      'online now',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                      ),
+                      softWrap: true,
+                    ),
+                  ],
+                ),
+                Icon(
+                  Icons.chevron_right,
+                  color: Colors.white,
+                )
+              ],
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Today\'s lesson',
+                style: TextStyle(
+                  color: darkPurple,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+              Text(
+                '12:00',
+                style: TextStyle(
+                  color: darkPurple,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+          Text(
+            "Unit-6 Articles",
+            style: TextStyle(
+              color: darkBlueGrey,
+              fontWeight: FontWeight.bold,
+              fontSize: 12,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class NavigationBar extends StatefulWidget {
   @override
   _NavigationBarState createState() => _NavigationBarState();
@@ -130,32 +312,33 @@ class _NavigationBarState extends State<NavigationBar>
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          NavigationBarButton(buttonIconData: Icons.leaderboard),
-          NavigationBarButton(buttonIconData: Icons.apps),
-          NavigationBarButton(buttonIconData: Icons.person),
-          NavigationBarButton(buttonIconData: Icons.timeline),
+          ButtonWithAnimation(buttonIconData: Icons.leaderboard),
+          ButtonWithAnimation(buttonIconData: Icons.apps),
+          ButtonWithAnimation(buttonIconData: Icons.person),
+          ButtonWithAnimation(buttonIconData: Icons.timeline),
         ],
       ),
     );
   }
 }
 
-class NavigationBarButton extends StatefulWidget {
+class ButtonWithAnimation extends StatefulWidget {
   final IconData buttonIconData;
 
-  NavigationBarButton({this.buttonIconData});
+  ButtonWithAnimation({this.buttonIconData});
 
   @override
-  _NavigationBarButtonState createState() => _NavigationBarButtonState();
+  _ButtonWithAnimationState createState() => _ButtonWithAnimationState();
 }
 
-class _NavigationBarButtonState extends State<NavigationBarButton>
+class _ButtonWithAnimationState extends State<ButtonWithAnimation>
     with SingleTickerProviderStateMixin {
   AnimationController _animationController;
   Animation _animation;
 
   final Tween slideUpTween = Tween<double>(begin: 0.0, end: -2.0);
-  final ColorTween colorTween = ColorTween(begin: darkBlueGrey, end: darkVioletPurple);
+  final ColorTween colorTween =
+      ColorTween(begin: darkBlueGrey, end: darkVioletPurple);
 
   @override
   void initState() {
@@ -319,6 +502,89 @@ class CourseProgressCard extends StatelessWidget {
   }
 }
 
+class CourseCard extends StatelessWidget {
+  final IconData courseIcon;
+  final String courseName;
+  final String courseDescription;
+  final Color color;
+
+  CourseCard({
+    @required this.courseDescription,
+    @required this.courseIcon,
+    @required this.courseName,
+    this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        width: 280,
+        padding: const EdgeInsets.all(20.0),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: courseProgressBorderSide,
+            top: courseProgressBorderSide,
+            left: courseProgressBorderSide,
+            right: courseProgressBorderSide,
+          ),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Container(
+                  height: 40,
+                  width: 40,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                          color: color.withOpacity(0.2),
+                          blurRadius: 5.0,
+                          offset: Offset(2.0, 2.0))
+                    ],
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Icon(
+                    courseIcon,
+                    color: color,
+                  ),
+                ),
+                SizedBox(width: 20),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      courseName,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: darkPurple,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      courseDescription,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: darkBlueGrey,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
+            Icon(
+              Icons.chevron_right,
+              color: darkPurple,
+            )
+          ],
+        ));
+  }
+}
+
 class CourseAdCard extends StatelessWidget {
   final int discountPercent;
   final String courseName;
@@ -422,31 +688,51 @@ class ShortProfileInfoCard extends StatelessWidget {
               height: 100,
               width: 100,
               decoration: BoxDecoration(
-                color: darkBlueGrey,
-                shape: BoxShape.circle,
+                  color: darkBlueGrey,
+                  shape: BoxShape.circle,
+                  boxShadow: [BoxShadow(color: darkBlueGrey, blurRadius: 50)]),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: Image.asset(
+                  "assets/images/portrait1.jpg",
+                  fit: BoxFit.cover,
+                  alignment: Alignment.center,
+                ),
               ),
             ),
             Positioned(
               bottom: 0.0,
               right: 0.0,
-              child: Container(
-                height: 34,
-                width: 34,
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(247, 134, 99, 1),
-                  shape: BoxShape.circle,
-                  border: Border.all(width: 5, color: lightBlueGrey),
-                ),
-                child: Center(
-                  child: Text(
-                    rating.toString(),
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    height: 34,
+                    width: 34,
+                    decoration: BoxDecoration(
+                      color: lightBlueGrey,
+                      borderRadius: BorderRadius.circular(18),
                     ),
                   ),
-                ),
+                  Container(
+                    height: 24,
+                    width: 24,
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(247, 134, 99, 1),
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                    child: Center(
+                      child: Text(
+                        rating.toString(),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             )
           ],
@@ -476,12 +762,14 @@ class ShortProfileInfoCard extends StatelessWidget {
 
 //Borders
 //Course progess card border
-BorderSide courseProgressBorderSide =
-    BorderSide(color: darkBlueGrey, width: 1.0);
+BorderSide courseProgressBorderSide = BorderSide(
+  color: darkBlueGrey.withOpacity(0.5),
+  width: 1.5,
+);
 
 //Color Palette
 Color lightBlueGrey = Color.fromRGBO(245, 246, 248, 1);
 Color darkBlueGrey = Color.fromRGBO(185, 194, 209, 1);
 Color darkVioletPurple = Color.fromRGBO(29, 17, 134, 0.8);
-Color orange = Color.fromRGBO(253, 90, 40, 0.8);
+Color orange = Color.fromRGBO(255, 151, 87, 0.8);
 Color darkPurple = Color.fromRGBO(54, 53, 65, 1);
