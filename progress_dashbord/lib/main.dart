@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Progress Dashboard',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.blue, fontFamily: "Rubrik"),
+      theme: ThemeData(primarySwatch: Colors.blue, fontFamily: "Rubik"),
       home: ProgressDashboard(),
     );
   }
@@ -61,14 +61,61 @@ class ProgressDashboard extends StatelessWidget {
                       ),
                       SizedBox(height: 20),
                       Row(
-                        children: [],
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          DeadlineCard(
+                            title: "Exam - Unit 5",
+                            description: "Spanish for beginners.",
+                            cardColor: darkVioletPurple,
+                            imagesPaths: [
+                              "assets/images/pp1.jpg",
+                              "assets/images/pp2.jpg",
+                              "assets/images/pp3.jpg"
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              TaskDoneCard(
+                                title: "HomeWork",
+                                description: "For today's lesson.",
+                                cardColor: Colors.red,
+                              ),
+                              SizedBox(width: 20.0),
+                              TaskDoneCard(
+                                title: "Vocablury",
+                                description: "25 words per week.",
+                                cardColor: darkVioletPurple,
+                              ),
+                              SizedBox(width: 20.0),
+                              TaskDoneCard(
+                                title: "Reading",
+                                description: "25 pages per week.",
+                                cardColor: Colors.green,
+                              ),
+                            ],
+                          )
+                        ],
                       ),
                       SizedBox(height: 20),
                       Row(
-                        children: [GroupInfoCard()],
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          GroupInfoCard(),
+                          CurrentCourseProgress(
+                            title: "Physics for beginners",
+                            percentCompleted: 75,
+                            progressBarcolor: darkVioletPurple,
+                          ),
+                          CurrentCourseProgress(
+                            title: "Spanish for beginners",
+                            percentCompleted: 34,
+                            progressBarcolor: orange,
+                          ),
+                        ],
                       ),
                       SizedBox(height: 40),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           CourseCard(
                             courseName: "Grammar",
@@ -76,12 +123,17 @@ class ProgressDashboard extends StatelessWidget {
                             courseIcon: Icons.edit,
                             courseDescription: "+ 30 grammar rules.",
                           ),
-                          SizedBox(width: 50),
                           CourseCard(
                             courseName: "Dictionary",
                             color: Colors.redAccent,
                             courseIcon: Icons.text_format,
                             courseDescription: "+ 10 new words.",
+                          ),
+                          CourseCard(
+                            courseName: "Reading",
+                            color: Colors.greenAccent,
+                            courseIcon: Icons.book,
+                            courseDescription: "+ Knowledge.",
                           )
                         ],
                       )
@@ -195,10 +247,9 @@ class GroupInfoCard extends StatelessWidget {
                   fontSize: 16,
                 ),
               ),
-              Icon(
-                Icons.notifications,
-                color: darkBlueGrey,
-                size: 18,
+              ButtonWithAnimation(
+                buttonIconData: Icons.notifications,
+                buttonIconSize: 18,
               )
             ],
           ),
@@ -297,6 +348,230 @@ class GroupInfoCard extends StatelessWidget {
   }
 }
 
+class TaskDoneCard extends StatelessWidget {
+  final String title;
+  final String description;
+  final Color cardColor;
+
+  TaskDoneCard({
+    @required this.title,
+    @required this.description,
+    this.cardColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(10.0),
+      height: 160,
+      width: 120,
+      decoration: BoxDecoration(
+        color: cardColor.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Icon(
+            Icons.done_outline,
+            color: cardColor.withOpacity(0.8),
+          ),
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: cardColor.withOpacity(0.8),
+            ),
+          ),
+          Text(
+            description,
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: cardColor.withOpacity(0.6),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class DeadlineCard extends StatelessWidget {
+  final String title;
+  final String description;
+  final Color cardColor;
+  final List<String> imagesPaths;
+
+  DeadlineCard({
+    @required this.title,
+    @required this.description,
+    @required this.imagesPaths,
+    this.cardColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      height: 160,
+      width: 360,
+      decoration: BoxDecoration(
+        color: cardColor,
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Row(
+            children: [
+              Text(
+                'DEADLINE',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w300,
+                  color: Colors.white.withOpacity(0.6),
+                ),
+              ),
+              SizedBox(width: 20.0),
+              Text(
+                "12:00",
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w300,
+                  color: Colors.white.withOpacity(0.8),
+                ),
+              )
+            ],
+          ),
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 28,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          Text(
+            description,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w300,
+              color: Colors.white.withOpacity(0.8),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                child: Stack(
+                  overflow: Overflow.visible,
+                  children: [
+                    Positioned(
+                      left: 60,
+                      top: 0,
+                      child: Container(
+                        height: 30,
+                        width: 30,
+                        decoration: BoxDecoration(
+                          color: Colors.yellow,
+                          //border: Border.all(color: Colors.white, width: 1.0),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Center(
+                            child: Text(
+                          '+8',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                          ),
+                        )),
+                      ),
+                    ),
+                    Positioned(
+                      left: 40,
+                      top: 0,
+                      child: Container(
+                        height: 30,
+                        width: 30,
+                        decoration: BoxDecoration(
+                          color: darkBlueGrey,
+                          border: Border.all(color: Colors.white, width: 1.0),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(15),
+                          child: Image.asset(
+                            imagesPaths[2],
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 20,
+                      top: 0,
+                      child: Container(
+                        height: 30,
+                        width: 30,
+                        decoration: BoxDecoration(
+                          color: darkBlueGrey,
+                          border: Border.all(color: Colors.white, width: 1.0),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(15),
+                          child: Image.asset(
+                            imagesPaths[1],
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 30,
+                      width: 30,
+                      decoration: BoxDecoration(
+                        color: darkBlueGrey,
+                        border: Border.all(color: Colors.white, width: 1.0),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(15),
+                        child: Image.asset(
+                          imagesPaths[0],
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              FlatButton(
+                child: Text(
+                  'Start Testing',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w300,
+                    color: Colors.white.withOpacity(0.8),
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+                onPressed: () {
+                  print('Start Testing Pressed');
+                },
+              )
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}
+
 class NavigationBar extends StatefulWidget {
   @override
   _NavigationBarState createState() => _NavigationBarState();
@@ -324,8 +599,12 @@ class _NavigationBarState extends State<NavigationBar>
 
 class ButtonWithAnimation extends StatefulWidget {
   final IconData buttonIconData;
+  final double buttonIconSize;
 
-  ButtonWithAnimation({this.buttonIconData});
+  ButtonWithAnimation({
+    @required this.buttonIconData,
+    this.buttonIconSize,
+  });
 
   @override
   _ButtonWithAnimationState createState() => _ButtonWithAnimationState();
@@ -347,6 +626,12 @@ class _ButtonWithAnimationState extends State<ButtonWithAnimation>
         value: 0.0, duration: Duration(milliseconds: 100), vsync: this);
     _animation = CurvedAnimation(
         parent: _animationController, curve: Curves.easeOutSine);
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -373,6 +658,9 @@ class _ButtonWithAnimationState extends State<ButtonWithAnimation>
                 child: Icon(
                   widget.buttonIconData,
                   color: darkBlueGrey,
+                  size: widget.buttonIconSize == null
+                      ? 24
+                      : widget.buttonIconSize,
                 ),
               ),
               AnimatedBuilder(
@@ -384,6 +672,9 @@ class _ButtonWithAnimationState extends State<ButtonWithAnimation>
                     child: Icon(
                       widget.buttonIconData,
                       color: colorTween.evaluate(_animation),
+                      size: widget.buttonIconSize == null
+                          ? 24
+                          : widget.buttonIconSize,
                     ),
                   );
                 },
@@ -416,6 +707,102 @@ class BrandIcon extends StatelessWidget {
             fontSize: 24,
           ),
         ),
+      ),
+    );
+  }
+}
+
+class CurrentCourseProgress extends StatelessWidget {
+  final String title;
+  final int percentCompleted;
+  final Color progressBarcolor;
+
+  CurrentCourseProgress(
+      {@required this.title,
+      @required this.percentCompleted,
+      this.progressBarcolor});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 300,
+      width: 260,
+      padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 40.0),
+      // decoration: BoxDecoration(
+      //   color: Colors.grey[50],
+      //   borderRadius: BorderRadius.circular(10.0),
+      // ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            height: 40,
+            width: 40,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: darkBlueGrey.withOpacity(0.3),
+                  blurRadius: 6,
+                  offset: Offset(0, 1),
+                ),
+              ],
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            child: Icon(
+              Icons.text_rotation_none,
+              color: progressBarcolor,
+            ),
+          ),
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+              color: darkPurple,
+            ),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "$percentCompleted%",
+                style: TextStyle(
+                  color: darkPurple,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+              SizedBox(height: 10),
+              Stack(
+                children: [
+                  Container(
+                    height: 8,
+                    width: 200,
+                    decoration: BoxDecoration(
+                        color: darkBlueGrey.withOpacity(0.5),
+                        borderRadius: BorderRadius.circular(4.0)),
+                  ),
+                  Container(
+                    height: 8,
+                    width: 200 * 0.01 * percentCompleted,
+                    decoration: BoxDecoration(
+                      color: progressBarcolor,
+                      boxShadow: [
+                        BoxShadow(
+                          color: progressBarcolor.withOpacity(0.5),
+                          blurRadius: 4,
+                          offset: Offset(0, 1),
+                        )
+                      ],
+                      borderRadius: BorderRadius.circular(4.0),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          )
+        ],
       ),
     );
   }
