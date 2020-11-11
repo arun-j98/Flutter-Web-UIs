@@ -2,4 +2,4 @@
 Flutter Web UIs Implementations (Designs from Dribbble)
 
 1. Progress Dashboard Demo
-![](../master/progress_dashbord/progress_dashboard_demo.gif)
+![](../main/progress_dashbord/progress_dashboard_demo.gif)
