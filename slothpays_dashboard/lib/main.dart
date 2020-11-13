@@ -127,7 +127,9 @@ class SlothPaysDashboard extends StatelessWidget {
                 child: Column(
                   children: [
                     SizedBox(height: 20),
+                    //Top Row----------------------
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         //Search Bar--------------------------
                         Container(
@@ -166,6 +168,103 @@ class SlothPaysDashboard extends StatelessWidget {
                               ],
                             ),
                           ),
+                        ),
+                        //Info Bar------------------------------
+                        Container(
+                          width: 300,
+                          child: Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'SynatyPay Ltd.',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: deepBlue,
+                                      fontSize: 14,
+                                      fontFamily: "Overpass"),
+                                ),
+                                //Vertical Divider------
+                                Container(
+                                  width: 1,
+                                  height: 20,
+                                  color: grey,
+                                ),
+                                //////----------
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    FaIcon(
+                                      FontAwesomeIcons.solidComments,
+                                      color: grey,
+                                      size: 14,
+                                    ),
+                                    SizedBox(
+                                      width: 10.0,
+                                    ),
+                                    Stack(
+                                      children: [
+                                        FaIcon(
+                                          FontAwesomeIcons.solidBell,
+                                          color: grey,
+                                          size: 14,
+                                        ),
+                                        Positioned(
+                                          right: 0,
+                                          child: Container(
+                                            child: Container(
+                                              height: 6,
+                                              width: 6,
+                                              decoration: BoxDecoration(
+                                                color: true //(Condition)
+                                                    ? Colors.orange[800]
+                                                    : Colors.transparent,
+                                                borderRadius:
+                                                    BorderRadius.circular(3.0),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                //Vertical Divider------
+                                Container(
+                                  width: 1,
+                                  height: 20,
+                                  color: grey,
+                                ),
+                                //////----------
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      'Aiony Haust',
+                                      style: TextStyle(
+                                          color: darkGrey,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    SizedBox(
+                                      width: 10.0,
+                                    ),
+                                    Container(
+                                      height: 30,
+                                      width: 30,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(15),
+                                        child: Image.asset(
+                                          "assets/images/portrait1.jpg",
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
                         )
                       ],
                     ),
@@ -187,6 +286,7 @@ class SlothPaysDashboard extends StatelessWidget {
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
+                            //New Invoice Button-------------------------
                             InkWell(
                               onTap: () {},
                               child: Container(
@@ -299,7 +399,7 @@ class SlothPaysDashboard extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              CircularProgressBar(65)
+                              AnimatedCircularProgress(51)
                             ],
                           ),
                         ),
@@ -344,7 +444,7 @@ class SlothPaysDashboard extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              CircularProgressBar(65)
+                              AnimatedCircularProgress(51)
                             ],
                           ),
                         ),
@@ -389,7 +489,7 @@ class SlothPaysDashboard extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              CircularProgressBar(65)
+                              AnimatedCircularProgress(65)
                             ],
                           ),
                         ),
@@ -407,7 +507,7 @@ class SlothPaysDashboard extends StatelessWidget {
 }
 
 class AnimatedCircularProgress extends StatefulWidget {
-  final int percentCompleted;
+  final double percentCompleted;
   AnimatedCircularProgress(this.percentCompleted);
   @override
   _AnimatedCircularProgressState createState() =>
@@ -419,20 +519,23 @@ class _AnimatedCircularProgressState extends State<AnimatedCircularProgress>
   AnimationController _animationController;
   Animation _animation;
 
-  Tween<int> _percentCompletedTween;
+  Tween<double> _percentCompletedTween;
 
   @override
   void initState() {
     super.initState();
     _animationController = AnimationController(
         duration: Duration(
-          seconds: 5,
+          seconds: 1,
         ),
         vsync: this);
-    _percentCompletedTween = Tween<int>(begin: 0, end: widget.percentCompleted);
-    _animation =
-        CurvedAnimation(parent: _animationController, curve: Curves.linear);
-    _animationController.forward(from: 0.0);
+    _percentCompletedTween =
+        Tween<double>(begin: 0, end: widget.percentCompleted);
+    _animation = CurvedAnimation(
+        parent: _animationController, curve: Curves.easeOutSine);
+
+    Future.delayed(Duration(seconds: 1))
+        .then((value) => _animationController.forward(from: 0.0));
   }
 
   @override
@@ -443,65 +546,76 @@ class _AnimatedCircularProgressState extends State<AnimatedCircularProgress>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _animation,
-      builder: (_, __) {
-        return CircularProgressBar(
-          _percentCompletedTween.evaluate(_animation),
-        );
-      },
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        CustomPaint(
+          painter: CircularProgresBarCustomPainter(widget.percentCompleted),
+          size: Size(80, 80),
+        ),
+        AnimatedBuilder(
+          animation: _animation,
+          builder: (_, __) {
+            return Stack(
+              alignment: Alignment.center,
+              children: [
+                CustomPaint(
+                  painter: CircularProgressBarArc(
+                    _percentCompletedTween.evaluate(_animation),
+                  ),
+                  size: Size(80, 80),
+                ),
+                Text(
+                  "${_percentCompletedTween.evaluate(_animation).toInt()}%",
+                  style: TextStyle(
+                    color: blue,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+      ],
     );
   }
 }
 
-class CircularProgressBar extends StatelessWidget {
-  final int percentCompleted;
-  CircularProgressBar(this.percentCompleted);
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          CustomPaint(
-            painter: CircularProgresBarCustomPainter(percentCompleted),
-            size: Size(80, 80),
-          ),
-          Text(
-            "$percentCompleted%",
-            style: TextStyle(
-              color: blue,
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
+// class CircularProgressBar extends StatelessWidget {
+//   final double percentCompleted;
+//   CircularProgressBar(this.percentCompleted);
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       child: Stack(
+//         alignment: Alignment.center,
+//         children: [
+//           CustomPaint(
+//             painter: CircularProgresBarCustomPainter(percentCompleted),
+//             size: Size(80, 80),
+//           ),
+//           Text(
+//             "${percentCompleted.toInt()}%",
+//             style: TextStyle(
+//               color: blue,
+//               fontWeight: FontWeight.bold,
+//               fontSize: 20,
+//             ),
+//           )
+//         ],
+//       ),
+//     );
+//   }
+// }
 
-class CircularProgresBarCustomPainter extends CustomPainter {
-  final int percentCompleted;
-  CircularProgresBarCustomPainter(this.percentCompleted);
+class CircularProgressBarArc extends CustomPainter {
+  final double percentCompleted;
+  CircularProgressBarArc(this.percentCompleted);
   @override
   void paint(Canvas canvas, Size size) {
     Offset center = Offset(size.width / 2, size.height / 2);
     double radius = min(size.width / 2, size.height / 2) - 4;
-
-    //Shadow-------------------------
-    Path path = Path();
-    path.addArc(
-        Rect.fromCircle(center: center, radius: radius + 10), -pi, 2 * pi);
-    canvas.drawPath(
-        path,
-        Paint()
-          ..color = Colors.grey[300]
-          ..maskFilter =
-              MaskFilter.blur(BlurStyle.normal, convertRadiusToSigma(6)));
-
-    //Main---------------------------
-    canvas.drawCircle(center, radius, Paint()..color = Colors.grey[100]);
 
     double arcAngle = (percentCompleted / 100) * 2 * pi;
 
@@ -528,6 +642,61 @@ class CircularProgresBarCustomPainter extends CustomPainter {
         //..strokeCap = StrokeCap.round
         ..style = PaintingStyle.stroke,
     );
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
+  }
+}
+
+class CircularProgresBarCustomPainter extends CustomPainter {
+  final double percentCompleted;
+  CircularProgresBarCustomPainter(this.percentCompleted);
+  @override
+  void paint(Canvas canvas, Size size) {
+    Offset center = Offset(size.width / 2, size.height / 2);
+    double radius = min(size.width / 2, size.height / 2) - 4;
+
+    //Shadow-------------------------
+    Path path = Path();
+    path.addArc(
+        Rect.fromCircle(center: center, radius: radius + 10), -pi, 2 * pi);
+    canvas.drawPath(
+        path,
+        Paint()
+          ..color = Colors.grey[300]
+          ..maskFilter =
+              MaskFilter.blur(BlurStyle.normal, convertRadiusToSigma(6)));
+
+    //Main---------------------------
+    canvas.drawCircle(center, radius, Paint()..color = Colors.grey[100]);
+
+    // double arcAngle = (percentCompleted / 100) * 2 * pi;
+
+    // canvas.drawArc(
+    //   Rect.fromCircle(center: center, radius: radius),
+    //   0,
+    //   2 * pi,
+    //   false,
+    //   Paint()
+    //     ..color = Colors.white
+    //     ..strokeWidth = 5
+    //     //..strokeCap = StrokeCap.round
+    //     ..style = PaintingStyle.stroke,
+    // );
+
+    // canvas.drawArc(
+    //   Rect.fromCircle(center: center, radius: radius),
+    //   -pi / 2,
+    //   arcAngle,
+    //   false,
+    //   Paint()
+    //     ..color = blue
+    //     ..strokeWidth = 5
+    //     //..strokeCap = StrokeCap.round
+    //     ..style = PaintingStyle.stroke,
+    // );
   }
 
   static double convertRadiusToSigma(double radius) {
