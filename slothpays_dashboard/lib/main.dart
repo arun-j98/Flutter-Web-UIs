@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:math';
+import 'package:intl/intl.dart';
+import 'dummy_data.dart';
 
 void main() {
   runApp(MyApp());
@@ -495,12 +497,171 @@ class SlothPaysDashboard extends StatelessWidget {
                         ),
                       ],
                     ),
+                    SizedBox(height: 20),
+                    //Notification Board--------------------------
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          children: [
+                            //Graph----------------------
+                            //Orders Data Table----------
+                            DataTable(
+                              dataRowHeight: 30,
+                              dataRowColor: MaterialStateColor.resolveWith(
+                                  (states) => Colors.grey[50]),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              columns: [
+                                DataColumn(
+                                  label: Text("Invoice no."),
+                                ),
+                              ],
+                              rows: [
+                                DataRow(cells: [
+                                  DataCell(
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[50],
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(6),
+                                            bottomLeft: Radius.circular(6)),
+                                      ),
+                                      child: Text("4532"),
+                                    ),
+                                  )
+                                ])
+                              ],
+                            ),
+                          ],
+                        ),
+                        NotificationBoard(notifications)
+                      ],
+                    )
                   ],
                 ),
               ),
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class NotificationBoard extends StatelessWidget {
+  final List<NotificationData> _notifications;
+  NotificationBoard(this._notifications);
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 300,
+      height: 450,
+      padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(6),
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Notifications (${_notifications.length})",
+                style: TextStyle(
+                  color: Colors.blueGrey[700],
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              FaIcon(
+                FontAwesomeIcons.ellipsisV,
+                color: Colors.blueGrey[700],
+                size: 14,
+              )
+            ],
+          ),
+          SizedBox(height: 10),
+          Expanded(
+            child: ListView.builder(
+              itemCount: _notifications.length,
+              itemBuilder: (_, index) {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    NotificationCard(_notifications[index]),
+                    SizedBox(
+                      height: 10,
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class NotificationCard extends StatelessWidget {
+  final NotificationData _notificationData;
+  NotificationCard(this._notificationData);
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.maxFinite,
+      height: 100,
+      padding: const EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        color: Colors.blueGrey[50],
+        borderRadius: BorderRadius.circular(6),
+        border: Border.all(
+          color: _notificationData.isSeen ? darkGrey : blue,
+          width: 0.5,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            _notificationData.subject,
+            style: TextStyle(
+                color: deepBlue, fontSize: 12, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(
+            height: 4,
+          ),
+          Row(
+            children: [
+              Text(
+                "${DateFormat.yMMMd().format(_notificationData.dateTime)}",
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 10,
+                ),
+              ),
+              SizedBox(width: 10),
+              Text(
+                "${DateFormat.jm().format(_notificationData.dateTime)}",
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 10,
+                ),
+              )
+            ],
+          ),
+          Spacer(),
+          Text(
+            _notificationData.content,
+            style: TextStyle(
+              color: Colors.grey,
+              fontSize: 12,
+            ),
+          )
+        ],
       ),
     );
   }
