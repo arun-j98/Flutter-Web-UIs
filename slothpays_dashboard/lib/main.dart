@@ -506,33 +506,49 @@ class SlothPaysDashboard extends StatelessWidget {
                           children: [
                             //Graph----------------------
                             //Orders Data Table----------
-                            DataTable(
-                              dataRowHeight: 30,
-                              dataRowColor: MaterialStateColor.resolveWith(
-                                  (states) => Colors.grey[50]),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                              columns: [
-                                DataColumn(
-                                  label: Text("Invoice no."),
-                                ),
-                              ],
-                              rows: [
-                                DataRow(cells: [
-                                  DataCell(
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.grey[50],
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(6),
-                                            bottomLeft: Radius.circular(6)),
-                                      ),
-                                      child: Text("4532"),
+                            SingleChildScrollView(
+                              child: DataTable(
+                                dataRowHeight: 30,
+                                horizontalMargin: 16,
+                                headingTextStyle: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: blueGrey),
+                                headingRowHeight: 30,
+                                dataRowColor: MaterialStateColor.resolveWith(
+                                    (states) => Colors.grey[50]),
+                                    
+                                columns: [
+                                  DataColumn(
+                                      label: Text(
+                                    "Invoice no.",
+                                  )),
+                                  DataColumn(
+                                    label: Text(
+                                      "Client",
                                     ),
-                                  )
-                                ])
-                              ],
+                                  ),
+                                  DataColumn(
+                                    label: Text(
+                                      "Value",
+                                    ),
+                                  ),
+                                  DataColumn(
+                                    label: Text(
+                                      "Status",
+                                    ),
+                                  ),
+                                  DataColumn(
+                                    label: Text(
+                                      "Date",
+                                    ),
+                                  ),
+                                  DataColumn(
+                                    label: Text(""),
+                                  ),
+                                ],
+                                rows: dataRows(invoiceData),
+                              ),
                             ),
                           ],
                         ),
@@ -547,6 +563,64 @@ class SlothPaysDashboard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  //Widgets Funcs--------------------------
+  //Data row in invoice info table----------------
+  List<DataRow> dataRows(List<InvoiceData> invoiceData) {
+    List<DataRow> invoiceDataRows = [];
+
+    for (int i = 0; i < invoiceData.length; ++i) {
+      List<DataCell> tempDataRow = [];
+
+      tempDataRow.add(DataCell(Text(
+        "${invoiceData[i].invoiceNo}",
+        style: TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+          color: deepBlue.withOpacity(0.8),
+        ),
+      )));
+      tempDataRow.add(DataCell(Text(
+        "${invoiceData[i].clientName}",
+        style: TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w500,
+          color: deepBlue.withOpacity(0.8),
+        ),
+      )));
+      tempDataRow.add(DataCell(Text(
+        "\$${invoiceData[i].amount}",
+        style: TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+          color: deepBlue.withOpacity(0.8),
+        ),
+      )));
+      tempDataRow.add(
+        DataCell(
+          Container(
+              padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+              decoration: BoxDecoration(
+                  color: parrotGreen, borderRadius: BorderRadius.circular(2)),
+              child: Text(
+                "${invoiceData[i].status == Status.Approved ? "Approved" : "Hold"}",
+                style: TextStyle(fontSize: 12, color: Colors.white),
+              )),
+        ),
+      );
+      tempDataRow.add(DataCell(Text(
+        "${DateFormat.yMMMd().format(invoiceData[i].dateTime)}",
+        style: TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w500,
+          color: deepBlue.withOpacity(0.8),
+        ),
+      )));
+      tempDataRow.add(DataCell(FaIcon(FontAwesomeIcons.ellipsisV, size: 14)));
+      invoiceDataRows.add(DataRow(cells: tempDataRow));
+    }
+    return invoiceDataRows;
   }
 }
 

@@ -15,6 +15,90 @@ class NotificationData {
   });
 }
 
+enum Status { Approved, Hold }
+
+class InvoiceData {
+  int invoiceNo;
+  String clientName;
+  double amount;
+  Status status;
+  DateTime dateTime;
+
+  InvoiceData({
+    @required this.invoiceNo,
+    @required this.clientName,
+    @required this.amount,
+    @required this.status,
+    @required this.dateTime,
+  });
+}
+
+List<InvoiceData> invoiceData = [
+  InvoiceData(
+    invoiceNo: 3232,
+    clientName: "ABC Pvt. Ltd.",
+    amount: 7542154,
+    dateTime: DateTime.now(),
+    status: Status.Approved,
+  ),
+  InvoiceData(
+    invoiceNo: 983,
+    clientName: "XYZ Pvt. Ltd.",
+    amount: 465325,
+    dateTime: DateTime.now(),
+    status: Status.Approved,
+  ),
+  InvoiceData(
+    invoiceNo: 2742,
+    clientName: "ABC Pvt. Ltd.",
+    amount: 7542154,
+    dateTime: DateTime.now(),
+    status: Status.Approved,
+  ),
+  InvoiceData(
+    invoiceNo: 945,
+    clientName: "ABC Pvt. Ltd.",
+    amount: 7542154,
+    dateTime: DateTime.now(),
+    status: Status.Approved,
+  ),
+  InvoiceData(
+    invoiceNo: 765,
+    clientName: "XYZ Pvt. Ltd.",
+    amount: 465325,
+    dateTime: DateTime.now(),
+    status: Status.Approved,
+  ),
+  InvoiceData(
+    invoiceNo: 23,
+    clientName: "ABC Pvt. Ltd.",
+    amount: 7542154,
+    dateTime: DateTime.now(),
+    status: Status.Approved,
+  ),
+  InvoiceData(
+    invoiceNo: 154,
+    clientName: "ABC Pvt. Ltd.",
+    amount: 7542154,
+    dateTime: DateTime.now(),
+    status: Status.Approved,
+  ),
+  InvoiceData(
+    invoiceNo: 23453,
+    clientName: "XYZ Pvt. Ltd.",
+    amount: 465325,
+    dateTime: DateTime.now(),
+    status: Status.Approved,
+  ),
+  InvoiceData(
+    invoiceNo: 234,
+    clientName: "ABC Pvt. Ltd.",
+    amount: 7542154,
+    dateTime: DateTime.now(),
+    status: Status.Approved,
+  ),
+];
+
 List<NotificationData> notifications = [
   NotificationData(
     subject: "Recieve personalized forecasts",
