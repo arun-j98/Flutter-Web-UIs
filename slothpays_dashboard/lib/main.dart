@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:math';
 import 'package:intl/intl.dart';
+import 'package:slothpays_dashboard/widgets/vertical_navigation_bar.dart';
 import 'dummy_data.dart';
+import 'theme_colors.dart';
 
 void main() {
   runApp(MyApp());
@@ -29,99 +31,9 @@ class SlothPaysDashboard extends StatelessWidget {
         child: Row(
           children: [
             //Vertical Navigation Bar-------------------------
-            Container(
-              width: 300,
-              decoration: BoxDecoration(
-                color: lightGrey,
-                boxShadow: [
-                  BoxShadow(
-                    color: grey,
-                    blurRadius: 20.0,
-                    offset: Offset(-1, 0),
-                  )
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 20),
-                  //BrandIcon-------------
-                  Container(
-                    margin: const EdgeInsets.only(left: 50),
-                    child: RichText(
-                      text: TextSpan(
-                        text: "Sloth",
-                        style: TextStyle(
-                          color: deepBlue,
-                          fontSize: 32,
-                          fontWeight: FontWeight.w900,
-                          fontFamily: "Overpass",
-                        ),
-                        children: [
-                          TextSpan(
-                            text: "Pays",
-                            style: TextStyle(
-                              color: blue,
-                              fontSize: 32,
-                              fontWeight: FontWeight.w900,
-                              fontFamily: "Overpass",
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 40,
-                  ),
-                  Container(
-                    //height: 400,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        ButtonWithAnimation(
-                          icon: FontAwesomeIcons.home,
-                          title: "Home",
-                        ),
-                        ButtonWithAnimation(
-                          icon: FontAwesomeIcons.exclamationTriangle,
-                          title: "Actions Required",
-                        ),
-                        ButtonWithAnimation(
-                          icon: FontAwesomeIcons.solidFolder,
-                          title: "Orders",
-                        ),
-                        ButtonWithAnimation(
-                          icon: FontAwesomeIcons.fileInvoiceDollar,
-                          title: "Invoice",
-                        ),
-                        ButtonWithNotification(
-                          ButtonWithAnimation(
-                            icon: FontAwesomeIcons.solidBell,
-                            title: "Notification",
-                          ),
-                        ),
-                        // ButtonWithAnimation(
-                        //   icon: FontAwesomeIcons.solidBell,
-                        //   title: "Notification",
-                        // ),
-                        ButtonWithAnimation(
-                          icon: FontAwesomeIcons.cog,
-                          title: "Settings",
-                        )
-                      ],
-                    ),
-                  ),
-                  Spacer(),
-                  ButtonWithAnimation(
-                    icon: FontAwesomeIcons.signOutAlt,
-                    title: "Signout",
-                  ),
-                  SizedBox(height: 20),
-                ],
-              ),
+            VerticalNavigationBar(
+              title: slothPaysBrandIcon,
             ),
-
             //Main Dashboard------------------------------
             Expanded(
               child: Container(
@@ -139,9 +51,9 @@ class SlothPaysDashboard extends StatelessWidget {
                           width: 300,
                           padding: const EdgeInsets.all(6),
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4),
-                            color: Colors.grey[50],
-                          ),
+                              borderRadius: BorderRadius.circular(4),
+                              color: Colors.white //Colors.grey[50],
+                              ),
                           child: Center(
                             child: Row(
                               children: [
@@ -365,7 +277,7 @@ class SlothPaysDashboard extends StatelessWidget {
                           height: 120,
                           width: 300,
                           decoration: BoxDecoration(
-                            color: Colors.grey[50],
+                            color: Colors.white,
                             borderRadius: BorderRadius.circular(6),
                           ),
                           child: Row(
@@ -410,7 +322,7 @@ class SlothPaysDashboard extends StatelessWidget {
                           height: 120,
                           width: 300,
                           decoration: BoxDecoration(
-                            color: Colors.grey[50],
+                            color: Colors.white,
                             borderRadius: BorderRadius.circular(6),
                           ),
                           child: Row(
@@ -455,7 +367,7 @@ class SlothPaysDashboard extends StatelessWidget {
                           height: 120,
                           width: 300,
                           decoration: BoxDecoration(
-                            color: Colors.grey[50],
+                            color: Colors.white,
                             borderRadius: BorderRadius.circular(6),
                           ),
                           child: Row(
@@ -501,53 +413,68 @@ class SlothPaysDashboard extends StatelessWidget {
                     //Notification Board--------------------------
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             //Graph----------------------
+                            Text("Recent Invoices",
+                                style: TextStyle(
+                                    color: deepBlue,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold)),
+                            SizedBox(height: 10),
                             //Orders Data Table----------
-                            SingleChildScrollView(
-                              child: DataTable(
-                                dataRowHeight: 30,
-                                horizontalMargin: 16,
-                                headingTextStyle: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: blueGrey),
-                                headingRowHeight: 30,
-                                dataRowColor: MaterialStateColor.resolveWith(
-                                    (states) => Colors.grey[50]),
-                                    
-                                columns: [
-                                  DataColumn(
+                            Container(
+                              height: 420,
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.vertical,
+                                child: DataTable(
+                                  dataRowHeight: 30,
+                                  horizontalMargin: 16,
+                                  headingRowColor:
+                                      MaterialStateColor.resolveWith(
+                                          (states) => Colors.grey[100]),
+                                  headingTextStyle: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: blueGrey),
+                                  headingRowHeight: 30,
+                                  dataRowColor: MaterialStateColor.resolveWith(
+                                      (states) => Colors.white),
+                                  columns: [
+                                    DataColumn(
+                                        label: Text(
+                                      "Invoice no.",
+                                    )),
+                                    DataColumn(
                                       label: Text(
-                                    "Invoice no.",
-                                  )),
-                                  DataColumn(
-                                    label: Text(
-                                      "Client",
+                                        "Client",
+                                      ),
                                     ),
-                                  ),
-                                  DataColumn(
-                                    label: Text(
-                                      "Value",
+                                    DataColumn(
+                                      label: Text(
+                                        "Value",
+                                      ),
                                     ),
-                                  ),
-                                  DataColumn(
-                                    label: Text(
-                                      "Status",
+                                    DataColumn(
+                                      label: Text(
+                                        "Status",
+                                      ),
                                     ),
-                                  ),
-                                  DataColumn(
-                                    label: Text(
-                                      "Date",
+                                    DataColumn(
+                                      label: Text(
+                                        "Date",
+                                      ),
                                     ),
-                                  ),
-                                  DataColumn(
-                                    label: Text(""),
-                                  ),
-                                ],
-                                rows: dataRows(invoiceData),
+                                    DataColumn(
+                                      label: Text(""),
+                                    ),
+                                  ],
+                                  rows: dataRows(invoiceData),
+                                ),
                               ),
                             ),
                           ],
@@ -634,7 +561,7 @@ class NotificationBoard extends StatelessWidget {
       height: 450,
       padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
       decoration: BoxDecoration(
-        color: Colors.grey[200],
+        color: Colors.grey[100],
         borderRadius: BorderRadius.circular(6),
       ),
       child: Column(
@@ -944,177 +871,26 @@ class CircularProgresBarCustomPainter extends CustomPainter {
   }
 }
 
-class ButtonWithAnimation extends StatefulWidget {
-  final String title;
-  final IconData icon;
-
-  ButtonWithAnimation({
-    @required this.title,
-    @required this.icon,
-  });
-
-  @override
-  _ButtonWithAnimationState createState() => _ButtonWithAnimationState();
-}
-
-class _ButtonWithAnimationState extends State<ButtonWithAnimation>
-    with SingleTickerProviderStateMixin {
-  AnimationController _animationController;
-
-  Animation _animation;
-
-  final ColorTween _colorTween =
-      ColorTween(begin: lightGrey, end: Colors.grey[200]);
-
-  bool isSelected = false;
-  // bool newNotification = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _animationController = AnimationController(
-        value: 0.0, duration: Duration(milliseconds: 50), vsync: this);
-    _animation = CurvedAnimation(
-        parent: _animationController, curve: Curves.easeOutSine);
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-        onHover: (isHovering) {
-          if (isHovering) {
-            _animationController.forward(from: 0.0);
-          } else {
-            _animationController.reverse();
-          }
-        },
-        onTap: () {
-          print("${widget.title} clicked!");
-          setState(() {
-            isSelected = !isSelected;
-          });
-        },
-        child: AnimatedBuilder(
-          animation: _animation,
-          builder: (_, __) {
-            return Container(
-              decoration: BoxDecoration(
-                color: isSelected
-                    ? Colors.grey[50]
-                    : _colorTween.evaluate(_animation),
-              ),
-              height: 50,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        height: 50,
-                        width: 4,
-                        decoration: BoxDecoration(
-                          color: isSelected ? blue : Colors.transparent,
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(4),
-                            bottomRight: Radius.circular(4),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 40),
-                      Container(
-                        width: 20,
-                        child: Center(
-                          child: FaIcon(
-                            widget.icon,
-                            color: isSelected ? blue : deepBlue,
-                            size: 16,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 8.0),
-                      Text(
-                        widget.title,
-                        style: TextStyle(
-                            color: isSelected ? blue : deepBlue,
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ],
-                  ),
-                  //Notificaiton Orange dot------------------------------
-                  // Container(
-                  //   margin: const EdgeInsets.only(
-                  //     right: 20,
-                  //   ),
-                  //   child: Container(
-                  //     height: 6,
-                  //     width: 6,
-                  //     decoration: BoxDecoration(
-                  //       color: newNotification
-                  //           ? Colors.orange[800]
-                  //           : Colors.transparent,
-                  //       borderRadius: BorderRadius.circular(3.0),
-                  //     ),
-                  //   ),
-                  // ),
-                ],
-              ),
-            );
-          },
-        ));
-  }
-}
-
-class ButtonWithNotification extends StatefulWidget {
-  final ButtonWithAnimation _buttonWithAnimation;
-  ButtonWithNotification(this._buttonWithAnimation);
-  @override
-  _ButtonWithNotificationState createState() => _ButtonWithNotificationState();
-}
-
-class _ButtonWithNotificationState extends State<ButtonWithNotification> {
-  bool newNotification = true;
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        widget._buttonWithAnimation,
-        Positioned(
-          right: 20,
-          top: 22,
-          child: Container(
-            margin: const EdgeInsets.only(
-              right: 20,
-            ),
-            child: Container(
-              height: 6,
-              width: 6,
-              decoration: BoxDecoration(
-                color:
-                    newNotification ? Colors.orange[800] : Colors.transparent,
-                borderRadius: BorderRadius.circular(3.0),
-              ),
-            ),
-          ),
+//SlothPays BrandIcon------------
+Widget slothPaysBrandIcon = RichText(
+  text: TextSpan(
+    text: "Sloth",
+    style: TextStyle(
+      color: deepBlue,
+      fontSize: 32,
+      fontWeight: FontWeight.w900,
+      fontFamily: "Overpass",
+    ),
+    children: [
+      TextSpan(
+        text: "Pays",
+        style: TextStyle(
+          color: blue,
+          fontSize: 32,
+          fontWeight: FontWeight.w900,
+          fontFamily: "Overpass",
         ),
-      ],
-    );
-  }
-}
-
-//Color Palette
-Color lightGrey = Color.fromRGBO(247, 247, 247, 1);
-Color lightBlueGrey = Color.fromRGBO(191, 199, 230, 1);
-Color grey = Color.fromRGBO(205, 206, 209, 1);
-Color darkGrey = Color.fromRGBO(77, 90, 100, 1);
-Color lightPurple = Color.fromRGBO(77, 97, 178, 1);
-Color blueGrey = Color.fromRGBO(115, 139, 177, 1);
-Color parrotGreen = Color.fromRGBO(40, 152, 64, 1);
-Color blue = Color.fromRGBO(0, 98, 227, 1);
-Color deepBlue = Color.fromRGBO(0, 12, 36, 1);
+      ),
+    ],
+  ),
+);

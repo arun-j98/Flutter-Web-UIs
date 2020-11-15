@@ -97,6 +97,62 @@ List<InvoiceData> invoiceData = [
     dateTime: DateTime.now(),
     status: Status.Approved,
   ),
+  InvoiceData(
+    invoiceNo: 765,
+    clientName: "XYZ Pvt. Ltd.",
+    amount: 465325,
+    dateTime: DateTime.now(),
+    status: Status.Approved,
+  ),
+  InvoiceData(
+    invoiceNo: 23,
+    clientName: "ABC Pvt. Ltd.",
+    amount: 7542154,
+    dateTime: DateTime.now(),
+    status: Status.Approved,
+  ),
+  InvoiceData(
+    invoiceNo: 154,
+    clientName: "ABC Pvt. Ltd.",
+    amount: 7542154,
+    dateTime: DateTime.now(),
+    status: Status.Approved,
+  ),
+  InvoiceData(
+    invoiceNo: 154,
+    clientName: "ABC Pvt. Ltd.",
+    amount: 7542154,
+    dateTime: DateTime.now(),
+    status: Status.Approved,
+  ),
+  InvoiceData(
+    invoiceNo: 154,
+    clientName: "ABC Pvt. Ltd.",
+    amount: 7542154,
+    dateTime: DateTime.now(),
+    status: Status.Approved,
+  ),
+  InvoiceData(
+    invoiceNo: 154,
+    clientName: "ABC Pvt. Ltd.",
+    amount: 7542154,
+    dateTime: DateTime.now(),
+    status: Status.Approved,
+  ),
+  InvoiceData(
+    invoiceNo: 154,
+    clientName: "ABC Pvt. Ltd.",
+    amount: 7542154,
+    dateTime: DateTime.now(),
+    status: Status.Approved,
+  ),
+  InvoiceData(
+    invoiceNo: 154,
+    clientName: "ABC Pvt. Ltd.",
+    amount: 7542154,
+    dateTime: DateTime.now(),
+    status: Status.Approved,
+  ),
 ];
 
 List<NotificationData> notifications = [
